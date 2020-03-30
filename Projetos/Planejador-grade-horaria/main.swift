@@ -56,19 +56,22 @@ class GerenciaDisciplinas {
     private var disciplinasGradeSalva:[Discipline] = []
 
     public func getDisciplinasPossiveis() {
-        print("Disciplina: \(disciplinasPossiveis["ENG01"]!.name)\nID: \(disciplinasPossiveis["ENG01"]!.id) | Créditos: \(disciplinasPossiveis["ENG01"]!.creditos)\n")
-
-        print("Disciplina: \(disciplinasPossiveis["ENG02"]!.name)\nID: \(disciplinasPossiveis["ENG02"]!.id) | Créditos: \(disciplinasPossiveis["ENG02"]!.creditos)\n")
-
-        print("Disciplina: \(disciplinasPossiveis["ENG03"]!.name)\nID: \(disciplinasPossiveis["ENG03"]!.id) | Créditos: \(disciplinasPossiveis["ENG03"]!.creditos)\n")
-
-        print("Disciplina: \(disciplinasPossiveis["ENG04"]!.name)\nID: \(disciplinasPossiveis["ENG04"]!.id) | Créditos: \(disciplinasPossiveis["ENG04"]!.creditos)\n")
-
-        print("Disciplina: \(disciplinasPossiveis["ENG05"]!.name)\nID: \(disciplinasPossiveis["ENG05"]!.id) | Créditos: \(disciplinasPossiveis["ENG05"]!.creditos)\n")
+        
+        print("Disciplinas possíveis:\n")
+        for i in disciplinasPossiveis {
+            print("Disciplina: \(i.value.name)\nID: \(i.value.id) | Créditos: \(i.value.creditos)\n")
+        }
     }
     
-    public func getDisciplinasFeitas() -> [String: Discipline] {
-        return disciplinasFeitas
+    public func getDisciplinasFeitas() {
+        
+        print("Disciplinas feitas:\n")
+        for i in disciplinasFeitas {
+            //print("Disciplina: \(i.value.name)")
+            print("Disciplina: \(i.value.name)\nID: \(i.value.id) | Créditos: \(i.value.creditos)\n")
+        }
+        
+//        return disciplinasFeitas
     }
     
     public func getDisciplinasGradeSalva() -> [Discipline] {
@@ -99,7 +102,7 @@ class GerenciaDisciplinas {
         for disciplinaID in disciplinasID {
             if disciplinasPossiveis[disciplinaID] != nil {
                 var possivel: Bool = true
-                disciplinasGradeSalva.forEach {         
+                disciplinasGradeSalva.forEach {
                   if chocaHorarios($0, disciplinasPossiveis[disciplinaID]!){
                     possivel = false
                   }
@@ -108,7 +111,7 @@ class GerenciaDisciplinas {
                   deuCerto.append(true)
                   disciplinasGradeSalva.append(disciplinasPossiveis[disciplinaID]!)
                 }else{
-                  deuCerto.append(false) 
+                  deuCerto.append(false)
                 }
             } else{
                 deuCerto.append(false)
@@ -122,12 +125,12 @@ class GerenciaDisciplinas {
         var deuCerto:[Bool] = []
         for disciplinaID in disciplinasID {
             if disciplinasPossiveis[disciplinaID] != nil {
-               var temp = false 
+               var temp = false
                for (i, disc) in disciplinasGradeSalva.enumerated(){
                   if disc.id == disciplinaID {
                     disciplinasGradeSalva.remove(at: i)
                     temp = true
-                  } 
+                  }
                 }
                 deuCerto.append(temp)
             }else {
@@ -180,12 +183,12 @@ class GerenciaDisciplinas {
         // print(disciplinas)
         let disciplinas = disciplinasGradeSalva
         let semana = [
-        "Segunda" : disciplinas.filter {$0.horarios.filter{$0.weekDay == WeekDay.monday}.count > 0}, 
+        "Segunda" : disciplinas.filter {$0.horarios.filter{$0.weekDay == WeekDay.monday}.count > 0},
         "Terça" : disciplinas.filter {$0.horarios.filter{$0.weekDay == WeekDay.tuesday}.count > 0} ,
         "Quarta" : disciplinas.filter {$0.horarios.filter{$0.weekDay == WeekDay.wednesday}.count > 0} ,
         "Quinta" : disciplinas.filter {$0.horarios.filter{$0.weekDay == WeekDay.thursday}.count > 0} ,
         "Sexta" : disciplinas.filter {$0.horarios.filter{$0.weekDay == WeekDay.friday}.count > 0} ,
-        "Sábado" : disciplinas.filter {$0.horarios.filter{$0.weekDay == WeekDay.saturday}.count > 0} 
+        "Sábado" : disciplinas.filter {$0.horarios.filter{$0.weekDay == WeekDay.saturday}.count > 0}
         ]
 
         print("\nGRADE DE HORARIOS SALVA: \n")
@@ -205,16 +208,16 @@ class GerenciaDisciplinas {
 func menu() {
 
     let menuStr = """
-      *-----------------------------------------*
-      01. Ver grade horaria criada
-      02. Editar disciplinas da grade atual
-      03. Ver disciplinas possíveis (Em progresso)
-      04. Ver disciplinas feitas
-      05. Editar disciplinas feitas
-      06. Ver todas as Disciplinas
-      07. Gerar semestres ótimos (Em progresso)
-      10. Sair
-      *-----------------------------------------*\n
+    *-----------------------------------------*
+    01. Ver grade horaria criada
+    02. Editar disciplinas da grade atual
+    03. Ver disciplinas possíveis (Em progresso)
+    04. Ver disciplinas feitas
+    05. Editar disciplinas feitas
+    06. Ver todas as Disciplinas
+    07. Gerar semestres ótimos (Em progresso)
+    10. Sair
+    *-----------------------------------------*\n
     
     """
 
@@ -226,7 +229,7 @@ func menu() {
 
         switch option {
         case 1:
-            GerenciaDisciplinas.sharedInstance.verGrade() 
+            GerenciaDisciplinas.sharedInstance.verGrade()
         case 2:
             print("""
             \n*-------------------------------*
@@ -256,8 +259,7 @@ func menu() {
         case 3:
             print("Opcao 03")
         case 4:
-            print("Opcao 04")
-            print(GerenciaDisciplinas.sharedInstance.getDisciplinasFeitas())
+            GerenciaDisciplinas.sharedInstance.getDisciplinasFeitas()
         case 5:
             print("Opcao 05")
             print("""
